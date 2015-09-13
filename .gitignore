@@ -1,0 +1,19 @@
+# Ignore the build and lib dirs as well as any executables
+build
+bin/*
+
+# Mac specific files
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows specific files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Tags file created by ctags
+tags
