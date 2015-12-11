@@ -2,6 +2,9 @@
 build
 bin/*
 
+# Ignore logfiles
+logs/*
+
 # Mac specific files
 .DS_Store
 .AppleDouble

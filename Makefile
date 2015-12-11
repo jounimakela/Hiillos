@@ -3,14 +3,13 @@ SRCDIR := source
 BUILDDIR := build
 TARGET := bin/hiillos
 
-CXX_SOURCES := $(shell find $(SRCDIR) -type f -name *.cpp)
+CXX_SOURCES := $(shell find $(SRCDIR) -type f -name '*.cpp')
 CXX_OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(CXX_SOURCES:.cpp=.o))
-CXX_FLAGS := -ggdb -std=c++11
+CXX_FLAGS := -ggdb -std=c++11 -Wall #-Wextra -Weffc++ -Wshadow -Wstrict-aliasing
 
-LIB := SDL2 SDL2_image SDL2_ttf SDL2_mixer
+LIB := sfml-graphics sfml-system sfml-window
 LINKER_FLAGS := $(foreach library,$(LIB),-l$(library))
 
-# TODO: Include all header files (find from subfolders)
 INC := -I include
 
 $(TARGET): $(CXX_OBJECTS)
