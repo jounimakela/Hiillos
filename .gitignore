@@ -18,5 +18,8 @@ Desktop.ini
 $RECYCLE.BIN/
 *.lnk
 
+# Other temporary files
+*.swp
+
 # Tags file created by ctags
 tags
