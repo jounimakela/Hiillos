@@ -4,10 +4,10 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <vector>
 
 #include "vendor/easylogging++.h"
 #include "Asset.h"
-#include "DrawableGroup.h"
 
 class AssetManager
 {
@@ -21,8 +21,10 @@ public:
          */
 //        template <class AssetType>
         ImageAsset& fetch(std::string filename);
-        DrawableGroup& fetch(std::vector<std::string> filelist);
+//        std::vector<sf::Sprite>& fetch(std::vector<std::string> filelist);
 
+        void resetReferences();
+        void cleanup();
 
 protected:
         /* @todo unloads asset, run destructor, remove from assets_ */
@@ -32,8 +34,8 @@ protected:
 private:
         /* AssetMap type */
         typedef std::map<std::string, ImageAsset> AssetMap;
-
         AssetMap assets_;
+
 };
 
 #endif

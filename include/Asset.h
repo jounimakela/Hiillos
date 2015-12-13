@@ -15,11 +15,15 @@ public:
 
         void increaseReferences();
         void decreaseReferences();
+        void resetReferences();
         int referenceCount();
+
+        sf::Time lastReferenced();
 
         std::string identifier;
 
 private:
+        sf::Clock reference_timer_;
         int references_;
 };
 

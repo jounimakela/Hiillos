@@ -5,14 +5,13 @@ ImageAsset& AssetManager::fetch(std::string filename)
         AssetMap::iterator it;
 
         it = assets_.find(filename);
-        LOG(DEBUG) << "Asset manager size: " << assets_.size();
 
         if (it != assets_.end()) {
                 ImageAsset &asset = it->second;
                 asset.increaseReferences();
 
-                LOG(DEBUG) << "Using existing asset " << filename
-                           << ". References: " << asset.referenceCount();
+//                LOG(DEBUG) << "Using existing asset " << filename
+//                           << ". References: " << asset.referenceCount();
                 return asset;
         }
 
@@ -24,21 +23,39 @@ ImageAsset& AssetManager::fetch(std::string filename)
                 LOG(ERROR) << "Asset not found.";
         }
 
+
         assets_[filename] = asset;
         return assets_[filename];
 }
 
-DrawableGroup& AssetManager::fetch(std::vector<std::string> filelist)
+void AssetManager::cleanup()
 {
-        DrawableGroup group;
+        for(AssetMap::iterator it = assets_.begin();
+                        it != assets_.end();
+                        ++it)
+        {
+                /*
+                LOG(DEBUG) << "Asset " << it->first << " has now " << it->second.referenceCount();
+                LOG(DEBUG) << "Last referenced " << it->second.lastReferenced().asSeconds() << " seconds ago";
+                */
 
-        for (auto &file : filelist) {
-                sf::Sprite sprite;
-                sprite.setTexture(fetch(file).data());
-                group.drawables.push_back(&sprite);
+                if (it->second.referenceCount() == 0
+                 && it->second.lastReferenced().asSeconds() > 3)
+                {
+                        forget(it->first);
+                }
         }
+}
 
-        return group;
+void AssetManager::resetReferences()
+{
+        for(AssetMap::iterator it = assets_.begin();
+                        it != assets_.end();
+                        ++it)
+        {
+                it->second.resetReferences();
+//                LOG(DEBUG) << "Asset " << it->first << " has now " << it->second.referenceCount();
+        }
 }
 
 bool AssetManager::forget(std::string filename)

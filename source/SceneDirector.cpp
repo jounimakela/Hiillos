@@ -41,16 +41,30 @@ void SceneDirector::run()
                                 break;
                 }
 
-                DrawableGroup group;
-                /*
-                DrawableGroup group = image_manager_.fetch(
-                        currentScene->drawable()
-                );
-                */
+                image_manager_.resetReferences();
+
+                /* @todo: Isolate this */
+                std::vector<sf::Sprite> group;
+
+                for (auto &file : currentScene->drawable()) {
+                        sf::Sprite sprite;
+                        sprite.setTexture(image_manager_.fetch(file).data());
+                        group.push_back(sprite);
+                }
 
                 window_->clear();
-                group.render(window_);
+
+                for(std::vector<sf::Sprite>::iterator it = group.begin();
+                                it != group.end();
+                                it++)
+                {
+                        window_->draw(*it);
+                }
+
                 window_->display();
+
+                /* @todo: This should be done automatically */
+                image_manager_.cleanup();
         }
 }
 
